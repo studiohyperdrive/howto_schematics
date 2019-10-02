@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 import { Change } from '../types/change';
-import { InsertChange } from './change';
+import { InsertChange, RemoveChange } from './change';
 import { Tree } from '@angular-devkit/schematics/src/tree/interface';
 
 /**
@@ -50,7 +50,7 @@ export const findNodes = (node: ts.Node, kind: ts.SyntaxKind, max = Infinity, re
  * @param sourceFile The source file object.
  * @returns {Observable<ts.Node>} An observable of all the nodes in the source.
  */
-export function getSourceNodes(sourceFile: ts.SourceFile, kind: ts.SyntaxKind): ts.Node[] {
+export function getSourceNodes(sourceFile: ts.SourceFile, kind?: ts.SyntaxKind): ts.Node[] {
     const nodes: ts.Node[] = [sourceFile];
     const result = [];
 
@@ -97,6 +97,16 @@ export const findMethodDeclarations = (sourceFile: ts.SourceFile) => {
 
 export const findConstructor = (sourceFile: ts.SourceFile) => {
     return getSourceNodes(sourceFile, ts.SyntaxKind.Constructor);
+};
+
+export const findElement = (sourceFile: ts.SourceFile, text: string, startsWith: boolean = true): ts.Node | null => {
+    const nodes = getSourceNodes(sourceFile);
+
+    return nodes.find((node) => {
+        const nodeText = node.getText();
+
+        return nodeText === text || (startsWith && nodeText.startsWith(text));
+     }) || null;
 };
 
 /**
@@ -175,12 +185,23 @@ export const insertBeforeFirstOccurrence = (
     return new InsertChange(file, firstItemPosition, toInsert);
 }
 
+export const removeNode = (
+    toRemove: ts.Node,
+    file: string,
+): Change => {
+    return new RemoveChange(file, toRemove.getStart(), toRemove.getFullText());
+}
+
 export const writeChangesToTree = (tree: Tree, sourcePath: string, changes: Change[]): Tree => {
     const changeRecorder = tree.beginUpdate(sourcePath);
 
     for (const change of changes) {
       if (change instanceof InsertChange) {
         changeRecorder.insertLeft(change.pos, change.toAdd);
+      }
+
+      if (change instanceof RemoveChange) {
+          changeRecorder.remove(change.pos, change.toRemove.length);
       }
     }
 
