@@ -15,6 +15,7 @@ export const generateStyleguideComponent = (
 ): Rule[] => {
     const {
         name,
+        type,
     } = options;
 
     const styleguideConfig = workspace.projects['styleguide'];
@@ -27,8 +28,8 @@ export const generateStyleguideComponent = (
         ...generateComponent({
             name,
             project: 'styleguide',
-            module: 'atoms',
-            path: `${styleguideConfig.sourceRoot}/app/atoms`,
+            module: `${type}s`,
+            path: `${styleguideConfig.sourceRoot}/app/${type}s`,
             type: ComponentTypes.page,
             prefix: 'sg',
         }, workspace),

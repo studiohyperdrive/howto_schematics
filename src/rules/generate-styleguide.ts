@@ -45,6 +45,6 @@ export const generateStyleguide = (
         }, {
             sourceProject: 'ui',
             sourceModule: 'UIModule',
-        }),
+        }, options),
     ];
 };

@@ -6,10 +6,16 @@ import { readWorkspace } from '../utils/workspace';
 import { readIntoSourceFile } from '../utils/file';
 import { findNgModuleDecorator, findNgModuleImports, findNodes, writeChangesToTree, insertAfterLastOccurrence, findImports } from '../utils/ast';
 import { findModule } from '../utils/module';
+import { ComponentTypes } from '../types/component';
 
 export const addModuleImport = (
     { targetProject, targetModule }: { targetModule: string; targetProject: string; },
     { sourceModule, sourceProject }: { sourceModule: string; sourceProject: string; },
+    {
+        type,
+    }: {
+        type: ComponentTypes;
+    }
 ): Rule[] => {
     return [(tree: Tree, context: SchematicContext): Tree => {
         const workspace = readWorkspace(tree);
@@ -19,7 +25,7 @@ export const addModuleImport = (
             throw new SchematicsException(`Could not find project (${targetProject}) in workspace`);
         }
 
-        const fileRoot = join(projectConfig.sourceRoot as Path, 'app', 'atoms') as string;
+        const fileRoot = join(projectConfig.sourceRoot as Path, 'app', `${type}s`) as string;
         const modulePath = findModule(tree, fileRoot, { module: targetModule });
 
         let result: Tree = tree;
