@@ -1,0 +1,10 @@
+{
+  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "atom": {
+      "description": "Generate a new atom.",
+      "factory": "./atom/index#atomSchematic",
+      "schema": "./schema.json"
+    }
+  }
+}
