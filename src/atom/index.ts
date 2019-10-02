@@ -1,9 +1,9 @@
 import {
-  Rule,
-  Tree,
   chain,
-  SchematicsException,
   externalSchematic,
+  Rule,
+  SchematicsException,
+  Tree,
 } from '@angular-devkit/schematics';
 import { experimental } from '@angular-devkit/core';
 
@@ -11,6 +11,7 @@ import { readWorkspace } from '../utils/workspace';
 import { moduleExists } from '../utils/module';
 import { setupRootComponent } from './root-component';
 import { updateRoutes } from './router';
+import { setupStyleguideComponent } from './styleguide';
 
 const generateProject = (options: any, workspace: experimental.workspace.WorkspaceSchema): Rule[] => {
   const {
@@ -59,6 +60,11 @@ const generateStyleguide = (options: any, workspace: experimental.workspace.Work
       path: `${styleguideConfig.sourceRoot}/app/atoms`,
       style: 'scss',
       spec: true,
+    }),
+    setupStyleguideComponent({
+      module: 'atoms',
+      project: 'styleguide',
+      name,
     }),
     setupRootComponent({
       module: 'atoms',
