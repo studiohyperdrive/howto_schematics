@@ -5,6 +5,11 @@
       "description": "Generate a new atom.",
       "factory": "./atom/index#atomSchematic",
       "schema": "./schema.json"
+    },
+    "molecule": {
+      "description": "Generate a new molecule.",
+      "factory": "./molecule/index#moleculeSchematic",
+      "schema": "./schema.json"
     }
   }
 }
