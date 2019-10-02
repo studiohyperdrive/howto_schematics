@@ -51,6 +51,11 @@ const generateStyleguide = (options: any, workspace: experimental.workspace.Work
   }
 
   const rules: Rule[] = [
+    setupRootComponent({
+      module: 'atoms',
+      project: 'styleguide',
+      name,
+    }),
     externalSchematic('@schematics/angular', 'component', {
       name,
       project: 'styleguide',
@@ -61,7 +66,7 @@ const generateStyleguide = (options: any, workspace: experimental.workspace.Work
     }),
   ];
 
-  if (!moduleExists(tree, { root: styleguideConfig.root, module: 'atoms' })) {
+  if (!moduleExists(tree, { root: styleguideConfig.sourceRoot, module: 'atoms' })) {
     rules.unshift(
       externalSchematic('@schematics/angular', 'module', {
         name: 'atoms',
@@ -69,11 +74,6 @@ const generateStyleguide = (options: any, workspace: experimental.workspace.Work
         module: 'app',
         route: 'atoms',
         routing: true,
-      }),
-      setupRootComponent({
-        module: 'atoms',
-        project: 'styleguide',
-        name,
       }),
     );
   }
