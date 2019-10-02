@@ -128,6 +128,20 @@ export const findImports = (sourceFile: ts.SourceFile): ts.Node[] => {
     return getSourceNodes(sourceFile, ts.SyntaxKind.ImportDeclaration);
 };
 
+export const findNgModuleDecorator = (sourceFile: ts.SourceFile): ts.Node | null => {
+    const decorators = getSourceNodes(sourceFile, ts.SyntaxKind.Decorator);
+
+    // TODO: clean this up
+
+    return decorators.find((node) => node.getText().startsWith('@NgModule')) || null;
+};
+
+export const findNgModuleImports = (decoratorNode: ts.Node): ts.Node | null => {
+    const properties = findNodes(decoratorNode, ts.SyntaxKind.PropertyAssignment);
+
+    return properties.find((prop) => prop.getText().startsWith('imports')) || null;
+};
+
 /**
  * Helper for sorting nodes.
  * @return function to sort nodes in increasing order of position in sourceFile

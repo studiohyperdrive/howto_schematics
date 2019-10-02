@@ -12,6 +12,7 @@ import { moduleExists } from '../utils/module';
 import { setupRootComponent } from './root-component';
 import { updateRoutes } from './router';
 import { setupStyleguideComponent } from './styleguide';
+import { addUIModuleImport } from './module';
 
 const generateProject = (options: any, workspace: experimental.workspace.WorkspaceSchema): Rule[] => {
   const {
@@ -86,6 +87,10 @@ const generateStyleguide = (options: any, workspace: experimental.workspace.Work
         module: 'app',
         route: 'atoms',
         routing: true,
+      }),
+      addUIModuleImport({
+        project: 'styleguide',
+        module: 'atoms',
       }),
     );
   }
