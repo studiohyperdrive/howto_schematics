@@ -35,6 +35,7 @@ const generateProject = (options: any, workspace: experimental.workspace.Workspa
       module,
       path: `${projectConfig.sourceRoot}/lib/atoms`,
       prefix: 'a',
+      export: true,
       style,
       styleext: style,
       spec,
@@ -109,6 +110,7 @@ export function atomSchematic(options: any): Rule {
     const projectRules = generateProject(options, workspace);
     const styleguideRules = generateStyleguide(options, workspace, tree);
 
+    // TODO: figure out how to trigger build after generation
     return chain([
       ...projectRules,
       ...styleguideRules,
