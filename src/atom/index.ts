@@ -10,6 +10,7 @@ import { experimental } from '@angular-devkit/core';
 import { readWorkspace } from '../utils/workspace';
 import { moduleExists } from '../utils/module';
 import { setupRootComponent } from './root-component';
+import { updateRoutes } from './router';
 
 const generateProject = (options: any, workspace: experimental.workspace.WorkspaceSchema): Rule[] => {
   const {
@@ -51,11 +52,6 @@ const generateStyleguide = (options: any, workspace: experimental.workspace.Work
   }
 
   const rules: Rule[] = [
-    setupRootComponent({
-      module: 'atoms',
-      project: 'styleguide',
-      name,
-    }),
     externalSchematic('@schematics/angular', 'component', {
       name,
       project: 'styleguide',
@@ -63,6 +59,16 @@ const generateStyleguide = (options: any, workspace: experimental.workspace.Work
       path: `${styleguideConfig.sourceRoot}/app/atoms`,
       style: 'scss',
       spec: true,
+    }),
+    setupRootComponent({
+      module: 'atoms',
+      project: 'styleguide',
+      name,
+    }),
+    updateRoutes({
+      module: 'atoms',
+      project: 'styleguide',
+      name,
     }),
   ];
 

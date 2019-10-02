@@ -98,7 +98,9 @@ const setupTemplate = (tree: Tree, projectConfig: experimental.workspace.Workspa
     <li *ngFor="let atom of atoms">
         <a [routerLink]="['./', atom.path]">{{ atom.name }}</a>
     </li>
-</ul>`, templatePath, 0)
+</ul>
+
+<router-outlet></router-outlet>`, templatePath, 0)
         ]);
     }
 

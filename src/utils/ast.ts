@@ -50,8 +50,13 @@ export const findNodes = (node: ts.Node, kind: ts.SyntaxKind, max = Infinity, re
  * @param sourceFile The source file object.
  * @returns {Observable<ts.Node>} An observable of all the nodes in the source.
  */
-export function getSourceNodes(sourceFile: ts.SourceFile, kind?: ts.SyntaxKind): ts.Node[] {
+export const getSourceNodes = (sourceFile: ts.SourceFile, kind?: ts.SyntaxKind): ts.Node[] => {
     const nodes: ts.Node[] = [sourceFile];
+
+    return filterNodesByKind(nodes, kind, sourceFile);
+};
+
+export const filterNodesByKind = (nodes: ts.Node[], kind?: ts.SyntaxKind, sourceFile?: ts.SourceFile): ts.Node[] => {
     const result = [];
 
     while (nodes.length > 0) {
@@ -70,9 +75,9 @@ export function getSourceNodes(sourceFile: ts.SourceFile, kind?: ts.SyntaxKind):
     }
 
     return result;
-}
+};
 
-export function findNode(nodes: ts.Node[], kind: ts.SyntaxKind, text?: string): ts.Node | null {
+export const findNode = (nodes: ts.Node[], kind: ts.SyntaxKind, text?: string): ts.Node | null => {
     return nodes.find((node: ts.Node) => {
         if (node.kind === kind && (!text || node.getText() === text)) {
             // throw new Error(node.getText());
@@ -87,8 +92,18 @@ export function findNode(nodes: ts.Node[], kind: ts.SyntaxKind, text?: string): 
     }) || null;
 };
 
+export const findNodeByIdentifier = (nodes: ts.Node[], identifier: string): ts.Node | null => {
+    const identifiers = filterNodesByKind(nodes, ts.SyntaxKind.Identifier);
+
+    return identifiers.find((node) => node.getText() === identifier) || null;
+};
+
 export const findPropertyDeclarations = (sourceFile: ts.SourceFile) => {
     return getSourceNodes(sourceFile, ts.SyntaxKind.PropertyDeclaration);
+};
+
+export const findVariableDeclarations = (sourceFile: ts.SourceFile) => {
+    return getSourceNodes(sourceFile, ts.SyntaxKind.VariableDeclaration);
 };
 
 export const findMethodDeclarations = (sourceFile: ts.SourceFile) => {
@@ -107,6 +122,10 @@ export const findElement = (sourceFile: ts.SourceFile, text: string, startsWith:
 
         return nodeText === text || (startsWith && nodeText.startsWith(text));
      }) || null;
+};
+
+export const findImports = (sourceFile: ts.SourceFile): ts.Node[] => {
+    return getSourceNodes(sourceFile, ts.SyntaxKind.ImportDeclaration);
 };
 
 /**
