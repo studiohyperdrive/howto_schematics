@@ -1,122 +1,74 @@
 import {
   chain,
-  externalSchematic,
   Rule,
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import { experimental } from '@angular-devkit/core';
 
 import { readWorkspace } from '../utils/workspace';
-import { moduleExists } from '../utils/module';
-import { setupRootComponent } from './root-component';
-import { updateRoutes } from './router';
-import { setupStyleguideComponent } from './styleguide';
-import { addModuleImport } from '../utils/module';
 
-const generateProject = (options: any, workspace: experimental.workspace.WorkspaceSchema): Rule[] => {
-  const {
-    project = 'ui',
-    name,
-    module = 'ui',
-    style = 'scss',
-    spec = true,
-  } = options;
-  const projectConfig = workspace.projects[project];
+import { generateComponent } from '../rules/generate-component';
+import { ComponentTypes, ComponentPrefixes } from '../types/component';
+import { generateStyleguide } from '../rules/generate-styleguide';
+import { generateStyleguideComponent } from '../rules/generate-styleguide-component';
+import { setupStyleguideComponent } from '../rules/setup-styleguide-component';
+import { updateRootComponent } from '../rules/update-root-component';
+import { updateRoutes } from '../rules/update-routes';
 
-  if (!projectConfig) {
-    throw new SchematicsException(`Could not find project (${project}) in workspace`);
-  }
-
-  return [
-    externalSchematic('@schematics/angular', 'component', {
-      name,
-      project,
-      module,
-      path: `${projectConfig.sourceRoot}/lib/atoms`,
-      prefix: 'a',
-      export: true,
-      style,
-      styleext: style,
-      spec,
-    }),
-  ];
-};
-
-const generateStyleguide = (options: any, workspace: experimental.workspace.WorkspaceSchema, tree: Tree): Rule[] => {
-  const {
-    name,
-  } = options;
-
-  const styleguideConfig = workspace.projects['styleguide'];
-
-  if (!styleguideConfig) {
-    return [];
-  }
-
-  const rules: Rule[] = [
-    externalSchematic('@schematics/angular', 'component', {
-      name,
-      project: 'styleguide',
-      module: 'atoms',
-      path: `${styleguideConfig.sourceRoot}/app/atoms`,
-      style: 'scss',
-      spec: true,
-    }),
-    setupStyleguideComponent({
-      module: 'atoms',
-      project: 'styleguide',
-      name,
-    }),
-    setupRootComponent({
-      module: 'atoms',
-      project: 'styleguide',
-      name,
-    }),
-    updateRoutes({
-      module: 'atoms',
-      project: 'styleguide',
-      name,
-    }),
-  ];
-
-  if (!moduleExists(tree, { root: styleguideConfig.sourceRoot, module: 'atoms' })) {
-    rules.unshift(
-      externalSchematic('@schematics/angular', 'module', {
-        name: 'atoms',
-        project: 'styleguide',
-        module: 'app',
-        route: 'atoms',
-        routing: true,
-      }),
-      addModuleImport({
-        targetProject: 'styleguide',
-        targetModule: 'atoms',
-      }, {
-        sourceProject: 'ui',
-        sourceModule: 'UIModule',
-      }),
-    );
-  }
-
-  return rules;
-};
-
-export function atomSchematic(options: any): Rule {
+export function atomSchematic({
+  name,
+  project = 'ui',
+  module = 'ui',
+  style = 'scss',
+  spec = true,
+}: {
+  name: string;
+  project?: string;
+  module?: string;
+  style?: string;
+  spec?: boolean;
+}): Rule {
   return (tree: Tree) => {
-    if (!options.name) {
+    if (!name) {
       throw new SchematicsException('Option (name) is required!');
     }
 
     const workspace = readWorkspace(tree);
 
-    const projectRules = generateProject(options, workspace);
-    const styleguideRules = generateStyleguide(options, workspace, tree);
+    const projectConfig = workspace.projects[project];
+
+    if (!projectConfig) {
+      throw new SchematicsException(`Could not find project (${project}) in workspace`);
+    }
+
+    const ruleOptions = {
+      name,
+      project,
+      module,
+      path: `${projectConfig.sourceRoot}/lib/atoms`,
+      prefix: ComponentPrefixes.atom,
+      export: true,
+      style,
+      styleext: style,
+      spec,
+      type: ComponentTypes.atom,
+    };
+
+    const styleguideOptions = {
+      ...ruleOptions,
+      project: 'styleguide',
+      module: 'atoms',
+      prefix: 'sg',
+    };
 
     // TODO: figure out how to trigger build after generation
     return chain([
-      ...projectRules,
-      ...styleguideRules,
+      ...generateComponent(ruleOptions, workspace),
+      ...generateStyleguide(styleguideOptions, workspace, tree),
+      ...generateStyleguideComponent(styleguideOptions, workspace),
+      ...setupStyleguideComponent(styleguideOptions),
+      ...updateRootComponent(styleguideOptions, workspace),
+      ...updateRoutes(styleguideOptions),
     ]);
   }
 }

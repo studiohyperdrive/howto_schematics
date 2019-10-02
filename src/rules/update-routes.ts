@@ -22,8 +22,8 @@ export const updateRoutes = ({
     module: string;
     name: string;
     project: string;
-}): Rule => {
-    return (tree: Tree): Tree => {
+}): Rule[] => {
+    return [(tree: Tree): Tree => {
         const workspace = readWorkspace(tree);
         const projectConfig = workspace.projects[project];
 
@@ -63,5 +63,5 @@ export const updateRoutes = ({
         );
 
         return result;
-    };
+    }];
 };

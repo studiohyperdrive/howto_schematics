@@ -6,8 +6,8 @@ import { writeChangesToTree, insertAfterLastOccurrence, removeNode, findElement 
 import { strings } from '@angular-devkit/core';
 import { readIntoSourceFile } from '../utils/file';
 
-export const setupStyleguideComponent = ({ project, name }: { module: string; project: string, name: string }): Rule => {
-    return (tree: Tree): Tree => {
+export const setupStyleguideComponent = ({ project, name }: { module: string; project: string, name: string }): Rule[] => {
+    return [(tree: Tree): Tree => {
         const workspace = readWorkspace(tree);
         const projectConfig = workspace.projects[project];
 
@@ -41,5 +41,5 @@ export const setupStyleguideComponent = ({ project, name }: { module: string; pr
         ]);
 
         return result;
-    };
+    }];
 };
