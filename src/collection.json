@@ -20,6 +20,10 @@
       "description": "Generate a new page.",
       "factory": "./page/index#pageSchematic",
       "schema": "./schema.json"
+    },
+    "styleguide": {
+      "description": "Set up a new styleguide project.",
+      "factory": "./styleguide/index#styleguideSchematic"
     }
   }
 }

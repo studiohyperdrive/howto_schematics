@@ -10,4 +10,5 @@ export enum ComponentPrefixes {
     molecule = 'm',
     organism = 'o',
     page = 'p',
+    styleguide = 'sg',
 }
