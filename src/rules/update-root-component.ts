@@ -32,7 +32,7 @@ export const setupComponent = (
         type: ComponentTypes;
     },
 ): Rule => {
-    return (tree: Tree, ): Tree => {
+    return (tree: Tree): Tree => {
         const componentPath = `${projectConfig.sourceRoot}/app/${module}/${module}.component.ts`;
 
         if (!tree.exists(componentPath)) {
@@ -41,12 +41,12 @@ export const setupComponent = (
 
         let templateSource = readIntoSourceFile(tree, componentPath);
         let classProperties = findPropertyDeclarations(templateSource);
-        let typeRootNode = findNode(classProperties, ts.SyntaxKind.Identifier, type.toString());
+        let typeRootNode = findNode(classProperties, ts.SyntaxKind.Identifier, `${type.toString()}s`);
         let result: Tree = tree;
 
         if (!typeRootNode) {
             result = writeChangesToTree(
-                tree,
+                result,
                 componentPath,
                 [
                     insertBeforeFirstOccurrence(
@@ -62,7 +62,7 @@ export const setupComponent = (
                 ],
             );
 
-            templateSource = readIntoSourceFile(tree, componentPath);
+            templateSource = readIntoSourceFile(result, componentPath);
             classProperties = findPropertyDeclarations(templateSource);
             typeRootNode = findNode(classProperties, ts.SyntaxKind.Identifier, `${type}s`);
         }
@@ -114,11 +114,11 @@ export const setupTemplate = (
         }
 
         let result: Tree = tree;
-        let templateSource = readIntoSourceFile(tree, templatePath);
-        const defaultTag = findElement(templateSource, `<p>${type}s works!</p>`);
+        let templateSource = readIntoSourceFile(result, templatePath);
+        const defaultTag = findElement(templateSource, `<p>${type}sworks!</p>`, { stripWhitespace: true });
 
         if (defaultTag) {
-            result = writeChangesToTree(tree, templatePath, [
+            result = writeChangesToTree(result, templatePath, [
                 removeNode(defaultTag as ts.Node, templatePath),
                 insertAfterLastOccurrence([], `<ul class="m-menu">
         <li *ngFor="let ${type} of ${type}s">

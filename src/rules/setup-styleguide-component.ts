@@ -34,18 +34,18 @@ export const setupStyleguideComponent = (
         }
 
         let result: Tree = tree;
-        let templateSource = readIntoSourceFile(tree, templatePath);
-        const defaultTag = findElement(templateSource, `<p>${name} works!</p>`);
+        let templateSource = readIntoSourceFile(result, templatePath);
+        const defaultTag = findElement(templateSource, `<p>${name}works!</p>`, { stripWhitespace: true });
 
         if (defaultTag) {
-            result = writeChangesToTree(tree, templatePath, [
+            result = writeChangesToTree(result, templatePath, [
                 removeNode(defaultTag as ts.Node, templatePath),
             ]);
         }
 
         const prefix = ComponentPrefixes[type];
 
-        result = writeChangesToTree(tree, templatePath, [
+        result = writeChangesToTree(result, templatePath, [
             insertAfterLastOccurrence([], `<div class="m-component-overview">
     <h1>${strings.capitalize(type)}s - ${strings.capitalize(name)}</h1>
     <div class="m-component-overview__wrapper">

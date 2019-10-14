@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 import { Change } from '../types/change';
-import { InsertChange, RemoveChange } from './change';
+import { InsertChange, RemoveChange, ReplaceChange } from './change';
 import { Tree } from '@angular-devkit/schematics/src/tree/interface';
 
 /**
@@ -110,18 +110,28 @@ export const findMethodDeclarations = (sourceFile: ts.SourceFile) => {
     return getSourceNodes(sourceFile, ts.SyntaxKind.MethodDeclaration);
 };
 
+export const findIdentifiers = (sourceFile: ts.SourceFile) => {
+    return getSourceNodes(sourceFile, ts.SyntaxKind.Identifier);
+};
+
 export const findConstructor = (sourceFile: ts.SourceFile) => {
     return getSourceNodes(sourceFile, ts.SyntaxKind.Constructor);
 };
 
-export const findElement = (sourceFile: ts.SourceFile, text: string, startsWith: boolean = true): ts.Node | null => {
+export const findElement = (sourceFile: ts.SourceFile, text: string, {
+    startsWith = true,
+    stripWhitespace = false,
+}: {
+    startsWith?: boolean;
+    stripWhitespace?: boolean;
+} = {}): ts.Node | null => {
     const nodes = getSourceNodes(sourceFile);
 
     return nodes.find((node) => {
-        const nodeText = node.getText();
+        const nodeText = stripWhitespace ? node.getText().replace(/\s/gm, '') : node.getText();
 
         return nodeText === text || (startsWith && nodeText.startsWith(text));
-     }) || null;
+    }) || null;
 };
 
 export const findImports = (sourceFile: ts.SourceFile): ts.Node[] => {
@@ -148,6 +158,14 @@ export const findNgModuleImports = (decoratorNode: ts.Node): ts.Node | null => {
  */
 export const nodesByPosition = (first: ts.Node, second: ts.Node): number => {
     return first.getStart() - second.getStart();
+};
+
+export const replaceOccurence = (
+    node: ts.Node,
+    newText: string,
+    file: string,
+): Change => {
+    return new ReplaceChange(file, node.getStart(), node.getText(), newText);
 };
 
 export const insertAfterLastOccurrence = (
@@ -229,13 +247,13 @@ export const writeChangesToTree = (tree: Tree, sourcePath: string, changes: Chan
     const changeRecorder = tree.beginUpdate(sourcePath);
 
     for (const change of changes) {
-      if (change instanceof InsertChange) {
-        changeRecorder.insertLeft(change.pos, change.toAdd);
-      }
+        if (change instanceof InsertChange) {
+            changeRecorder.insertLeft(change.pos, change.toAdd);
+        }
 
-      if (change instanceof RemoveChange) {
-          changeRecorder.remove(change.pos, change.toRemove.length);
-      }
+        if (change instanceof RemoveChange) {
+            changeRecorder.remove(change.pos, change.toRemove.length);
+        }
     }
 
     tree.commitUpdate(changeRecorder);

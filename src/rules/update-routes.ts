@@ -1,4 +1,5 @@
-
+import * as ts from 'typescript';
+import { strings } from '@angular-devkit/core';
 import { Tree, Rule, SchematicsException } from '@angular-devkit/schematics';
 
 import { readWorkspace } from '../utils/workspace';
@@ -6,13 +7,11 @@ import { readIntoSourceFile } from '../utils/file';
 import {
     findNodeByIdentifier,
     findNodes,
-    findVariableDeclarations,
     insertAfterLastOccurrence,
     writeChangesToTree,
     findImports,
+    findVariableDeclarations,
 } from '../utils/ast';
-import ts = require('typescript');
-import { strings } from '@angular-devkit/core';
 
 export const updateRoutes = ({
     module,
@@ -38,13 +37,14 @@ export const updateRoutes = ({
         }
 
         let result: Tree = tree;
-        let templateSource = readIntoSourceFile(tree, routingModulePath);
+        let templateSource = readIntoSourceFile(result, routingModulePath);
         let variableDeclarations = findVariableDeclarations(templateSource);
         // TODO: clean this up so we don't have to use parent
         let routesDeclaration = findNodeByIdentifier(variableDeclarations, 'routes') as ts.Node;
+        let routeConfigs = findNodes(routesDeclaration, ts.SyntaxKind.ObjectLiteralExpression);
 
         result = writeChangesToTree(
-            tree,
+            result,
             routingModulePath,
             [
                 insertAfterLastOccurrence(
@@ -54,10 +54,10 @@ export const updateRoutes = ({
                     0,
                 ),
                 insertAfterLastOccurrence(
-                    findNodes(routesDeclaration.parent, ts.SyntaxKind.ObjectLiteralExpression),
-                    `,\n  { path: '${name}', component: ${strings.classify(name)}Component }`,
+                    routeConfigs,
+                    `\n  { path: '${name}', component: ${strings.classify(name)}Component },${routeConfigs.length ? '' : '\n'}`,
                     routingModulePath,
-                    0,
+                    routesDeclaration.getEnd() + 12, // TODO: fix this properly
                 ),
             ],
         );
