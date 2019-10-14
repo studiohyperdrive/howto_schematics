@@ -11,8 +11,9 @@ import { generateComponent } from '../rules/generate-component';
 import { ComponentTypes, ComponentPrefixes } from '../types/component';
 import { generateStyleguide } from '../rules/generate-styleguide';
 import { generateStyleguideComponent } from '../rules/generate-styleguide-component';
-import { setupStyleguideComponent } from '../rules/setup-styleguide-component';
+import { setupRootComponent } from '../rules/setup-root-component';
 import { updateRootComponent } from '../rules/update-root-component';
+import { setupStyleguideComponent } from '../rules/setup-styleguide-component';
 import { updateRoutes } from '../rules/update-routes';
 
 export function atomSchematic({
@@ -67,6 +68,7 @@ export function atomSchematic({
       ...generateStyleguide(styleguideOptions, workspace, tree),
       ...generateStyleguideComponent(styleguideOptions, workspace),
       ...setupStyleguideComponent(styleguideOptions),
+      ...setupRootComponent(styleguideOptions, workspace),
       ...updateRootComponent(styleguideOptions, workspace),
       ...updateRoutes(styleguideOptions),
     ]);

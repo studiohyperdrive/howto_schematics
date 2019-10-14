@@ -14,6 +14,7 @@ import { generateStyleguideComponent } from '../rules/generate-styleguide-compon
 import { setupStyleguideComponent } from '../rules/setup-styleguide-component';
 import { updateRootComponent } from '../rules/update-root-component';
 import { updateRoutes } from '../rules/update-routes';
+import { setupRootComponent } from '../rules/setup-root-component';
 
 export function pageSchematic({
   name,
@@ -67,6 +68,7 @@ export function pageSchematic({
       ...generateStyleguide(styleguideOptions, workspace, tree),
       ...generateStyleguideComponent(styleguideOptions, workspace),
       ...setupStyleguideComponent(styleguideOptions),
+      ...setupRootComponent(styleguideOptions, workspace),
       ...updateRootComponent(styleguideOptions, workspace),
       ...updateRoutes(styleguideOptions),
     ]);
