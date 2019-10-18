@@ -46,6 +46,9 @@ export function styleguideSchematic(_options: any): Rule {
       externalSchematic('@schematics/angular', 'application', {
         name: 'styleguide',
         prefix: ComponentPrefixes.styleguide,
+        routing: true,
+        style: 'scss',
+        skipPackageJson: true,
       }),
       externalSchematic('@schematics/angular', 'library', {
         name: 'ui',
