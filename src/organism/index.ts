@@ -18,13 +18,11 @@ import { setupRootComponent } from '../rules/setup-root-component';
 
 export function organismSchematic({
   name,
-  project = 'ui',
   module = 'ui',
   style = 'scss',
   spec = true,
 }: {
   name: string;
-  project?: string;
   module?: string;
   style?: string;
   spec?: boolean;
@@ -36,15 +34,15 @@ export function organismSchematic({
 
     const workspace = readWorkspace(tree);
 
-    const projectConfig = workspace.projects[project];
+    const projectConfig = workspace.projects['ui'];
 
     if (!projectConfig) {
-      throw new SchematicsException(`Could not find project (${project}) in workspace`);
+      throw new SchematicsException(`Could not find project (ui) in workspace`);
     }
 
     const ruleOptions = {
       name,
-      project,
+      project: 'ui',
       module,
       path: `${projectConfig.sourceRoot}/lib/organisms`,
       prefix: ComponentPrefixes.organism,
