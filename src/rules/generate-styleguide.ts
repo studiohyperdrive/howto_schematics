@@ -44,7 +44,7 @@ export const generateStyleguide = (
             targetModule: `${type}s`,
         }, {
             sourceProject: 'ui',
-            sourceModule: 'UIModule',
+            sourceModule: 'UiModule',
         }, options),
     ];
 };
