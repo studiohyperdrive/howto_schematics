@@ -1,4 +1,4 @@
 import { typeSchematic } from '../rules/generate-type';
 import { ComponentTypes } from '../types/component';
 
-export const atomSchematic = typeSchematic(ComponentTypes.organism);
+export const organismSchematic = typeSchematic(ComponentTypes.organism);
