@@ -48,11 +48,12 @@ export function styleguideSchematic(_options: any): Rule {
         prefix: ComponentPrefixes.styleguide,
         routing: true,
         style: 'scss',
-        skipPackageJson: true,
+        skipInstall: true,
       }),
       externalSchematic('@schematics/angular', 'library', {
         name: 'ui',
         prefix: 'ui',
+        skipInstall: true,
       }),
       updateLinter(),
     ]);
