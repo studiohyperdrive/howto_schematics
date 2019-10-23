@@ -14,7 +14,7 @@ const generateComponent = ({
     path: Path;
 }): Rule => {
     return (tree: Tree) => {
-        const componentPath = join(path, `${type}s`, `${type}s.component.ts`);
+        const componentPath = join(path, 'app', `${type}s`, `${type}s.component.ts`);
 
         if (tree.exists(componentPath)) {
             return tree;

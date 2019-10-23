@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { ContextService } from './core/services/context.service';
+import { NavItem } from './core/components/sidenav/sidenav.component';
 
 @Component({
   selector: 'sg-root',
@@ -8,6 +9,10 @@ import { ContextService } from './core/services/context.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  public types: NavItem[] = [
+
+  ];
+
   constructor(
     public context: ContextService,
   ) { }

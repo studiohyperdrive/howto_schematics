@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { <%= classify(type) %>sComponent } from './<%= type %>s.component';
 
 export const <%= upper(type) %>S_ROUTES: Routes = [
-  { path: '<%= type %>s', component: <%= classify(type) %>sComponent },
+  { path: '', component: <%= classify(type) %>sComponent },
 ];
 
 @NgModule({

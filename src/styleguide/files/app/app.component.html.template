@@ -2,7 +2,7 @@
 
 <mat-sidenav-container>
   <mat-sidenav mode="side" [opened]="context.sidebarOpen$ | async">
-    <sg-sidenav></sg-sidenav>
+    <sg-sidenav [items]="types"></sg-sidenav>
   </mat-sidenav>
 
   <mat-sidenav-content>

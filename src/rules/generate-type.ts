@@ -55,7 +55,7 @@ export const typeSchematic = (type: ComponentTypes) => ({
         const styleguideOptions = {
             ...ruleOptions,
             project: 'styleguide',
-            module: '${type}s',
+            module: `${type}s`,
             prefix: ComponentPrefixes.styleguide,
         };
 
