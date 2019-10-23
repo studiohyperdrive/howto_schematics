@@ -15,6 +15,7 @@ import { setupRootComponent } from '../rules/setup-root-component';
 import { updateRootComponent } from '../rules/update-root-component';
 import { setupStyleguideComponent } from '../rules/setup-styleguide-component';
 import { updateRoutes } from '../rules/update-routes';
+import { generateDocs } from '../rules/generate-docs';
 
 export function atomSchematic({
   name,
@@ -60,9 +61,9 @@ export function atomSchematic({
       prefix: 'sg',
     };
 
-    // TODO: figure out how to trigger build after generation
     return chain([
       ...generateComponent(ruleOptions, workspace),
+      ...generateDocs(ruleOptions, workspace),
       ...generateStyleguide(styleguideOptions, workspace, tree),
       ...generateStyleguideComponent(styleguideOptions, workspace),
       ...setupStyleguideComponent(styleguideOptions),

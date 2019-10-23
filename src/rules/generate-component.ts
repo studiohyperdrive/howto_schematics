@@ -32,13 +32,16 @@ export const generateComponent = (
         throw new SchematicsException(`Could not find project (${project}) in workspace`);
     }
 
+    const componentPrefix = prefix || (ComponentPrefixes as any)[type];
+    const componentPath = path || `${projectConfig.sourceRoot}/lib/${type}`;
+
     return [
         externalSchematic('@schematics/angular', 'component', {
             name,
             project,
             module,
-            path: path || `${projectConfig.sourceRoot}/lib/${type}`,
-            prefix: prefix || (ComponentPrefixes as any)[type],
+            path: componentPath,
+            prefix: componentPrefix,
             export: true,
             style,
             styleext: style,
