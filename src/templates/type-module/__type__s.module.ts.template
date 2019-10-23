@@ -1,0 +1,25 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { UiModule } from 'ui';
+
+import { SharedModule } from '../shared/shared.module';
+
+import { <%= classify(type) %>sRoutingModule } from './<%= type %>s-routing.module';
+import { <%= classify(type) %>sComponent } from './<%= type %>s.component';
+
+@NgModule({
+  declarations: [
+      <%= classify(type) %>sComponent,
+  ],
+  imports: [
+    CommonModule,
+    <%= classify(type) %>sRoutingModule,
+    UiModule,
+    SharedModule,
+  ],
+  exports: [
+      <%= classify(type) %>sComponent,
+  ],
+})
+export class <%= classify(type) %>sModule { }

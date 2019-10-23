@@ -38,7 +38,7 @@ export const generateDocs = ({
     const componentPrefix = prefix || (ComponentPrefixes as any)[type];
     const componentPath = path || `${projectConfig.sourceRoot}/lib/${type}`;
 
-    const templates = apply(url(`../templates/${type}`), [
+    const templates = apply(url(`../templates/type`), [
         applyTemplates({
             ...strings,
             name,

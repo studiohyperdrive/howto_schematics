@@ -13,6 +13,7 @@ import {
   MergeStrategy,
 } from '@angular-devkit/schematics';
 import { strings } from '@angular-devkit/core';
+import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 
 import { ComponentPrefixes } from '../types/component';
 import { readWorkspace } from '../utils/workspace';
@@ -42,6 +43,47 @@ const updateLinter = (): Rule => {
     ].map(prefix => `"${prefix}"`).join(', ');
 
     tree.overwrite(tslintConfigPath, tslintConfig.toString().replace(/"ui"/g, `[${prefixes}]`));
+
+    return tree;
+  };
+};
+
+const updateWorkspace = (): Rule => {
+  return (tree: Tree) => {
+    const workspace = tree.read('angular.json');
+
+    if (!workspace) {
+      throw new SchematicsException(`Could not find an angular.json in workspace`);
+    }
+
+    const workspaceContents = JSON.parse(workspace.toString());
+
+    tree.overwrite('angular.json', JSON.stringify({
+      ...workspaceContents,
+      projects: {
+        ...workspaceContents.projects,
+        styleguide: {
+          ...workspaceContents.projects.styleguide,
+          architect: {
+            ...workspaceContents.projects.styleguide.architect,
+            build: {
+              ...workspaceContents.projects.styleguide.architect.build,
+              options: {
+                ...workspaceContents.projects.styleguide.architect.build.options,
+                assets: [
+                  ...workspaceContents.projects.styleguide.architect.build.options.assets,
+                  {
+                    glob: '**/readme.md',
+                    input: 'projects/ui/src/lib',
+                    output: '/assets',
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+    }, null, 2));
 
     return tree;
   };
@@ -93,26 +135,17 @@ const setupStyleguide = (): Rule => {
   };
 };
 
+const installDependencies = ({ skipInstall }: { skipInstall?: boolean; }): Rule => {
+  return (tree: Tree, context: SchematicContext) => {
+    if (skipInstall) {
+      return tree;
+    }
 
-// import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+    context.addTask(new NodePackageInstallTask());
+  };
+};
 
-// const installDependencies = (): Rule => {
-//   return (_tree: Tree, context: SchematicContext) => {
-//     const packages = [
-//       "@angular/cdk@8.*",
-//       "@angular/material@8.*",
-//       "ngx-markdown@8.2.1",
-//     ];
-
-//     packages.forEach((packageName: string) => {
-//       context.addTask(new NodePackageInstallTask({
-//         packageName,
-//       }));
-//     })
-//   };
-// };
-
-export function styleguideSchematic(_options: any): Rule {
+export function styleguideSchematic(options: any): Rule {
   return (_tree: Tree, _context: SchematicContext) => {
     return chain([
       externalSchematic('@schematics/angular', 'application', {
@@ -129,7 +162,9 @@ export function styleguideSchematic(_options: any): Rule {
         skipInstall: true,
       }),
       updateLinter(),
+      updateWorkspace(),
       addDependencies(),
+      installDependencies(options),
     ]);
   };
 }

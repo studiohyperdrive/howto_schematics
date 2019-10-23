@@ -1,0 +1,14 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+
+import { <%= classify(type) %>sComponent } from './<%= type %>s.component';
+
+export const <%= upper(type) %>S_ROUTES: Routes = [
+  { path: '<%= type %>s', component: <%= classify(type) %>sComponent },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(<%= upper(type) %>S_ROUTES)],
+  exports: [RouterModule]
+})
+export class <%= classify(type) %>sRoutingModule { }

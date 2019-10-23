@@ -1,0 +1,24 @@
+import { Component, OnInit } from '@angular/core';
+import { Route } from '@angular/router';
+
+import { <%= upper(type) %>S_ROUTES } from './<%= type %>s-routing.module';
+
+@Component({
+  selector: 'sg-<%= type %>s',
+  templateUrl: './<%= type %>s.component.html',
+  styleUrls: ['./<%= type %>s.component.scss']
+})
+export class <%= classify(type) %>sComponent implements OnInit {
+
+  public <%= type %>s: Array<{ name: string; path: string; }> = <%= upper(type) %>S_ROUTES
+    .filter((route: Route) => !!route.path && !!route.data)
+    .map((route: Route) => ({
+      name: route.data.title,
+      path: route.path,
+    }));
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+}

@@ -1,0 +1,18 @@
+<mat-toolbar>
+  <a mat-button [routerLink]="['/<%= type %>s']"><%= classify(type) %>s</a>
+</mat-toolbar>
+
+<div class="flex-grid atoms-overview">
+  <div class="flex-grid__item" *ngFor="let <%= type %> of <%= type %>s">
+    <mat-card class="<%= type %>s-card">
+      <mat-card-content>
+        <mat-card-title>{{ <%= type %>.name }}</mat-card-title>
+      </mat-card-content>
+      <mat-card-actions>
+        <a [routerLink]="['./', <%= type %>.path]" mat-stroked-button>Details</a>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

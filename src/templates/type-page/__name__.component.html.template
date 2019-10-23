@@ -1,0 +1,24 @@
+<mat-toolbar>
+  <a mat-button [routerLink]="['/<%= type %>s']"><%= classify(type) %>s</a>
+  <mat-icon>arrow_right</mat-icon>
+  <a mat-button [routerLink]="['/<%= type %>s/<%= name %>']"><%= classify(name) %></a>
+</mat-toolbar>
+
+<div class="m-component-overview">
+  <div class="m-component-overview__wrapper">
+    <mat-tab-group animationDuration="0">
+      <mat-tab label="API">
+        <mat-card>
+          <mat-card-content>
+            <markdown src="/assets/<%= type %>s/<%= name %>/readme.md"></markdown>
+          </mat-card-content>
+        </mat-card>
+      </mat-tab>
+      <mat-tab label="Example">
+        <div class="styleguide-example">
+          <<%= prefix %>-<%= name %>></<%= prefix %>-<%= name %>>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

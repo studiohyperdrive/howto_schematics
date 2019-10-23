@@ -18,3 +18,7 @@ html, body {
 .flex-grid__item {
 	padding: .5rem;
 };
+
+.styleguide-example {
+  padding: 2rem;
+}
