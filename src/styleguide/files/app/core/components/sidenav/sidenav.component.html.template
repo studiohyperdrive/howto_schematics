@@ -1,0 +1,13 @@
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let item of items">
+    <mat-expansion-panel-header>
+      {{ item.label }}
+    </mat-expansion-panel-header>
+
+    <mat-nav-list *ngIf="item.children">
+      <a mat-list-item *ngFor="let child of item.children" [routerLink]="child.path" (click)="onClick()">
+        <span mat-line>{{ child.label }}</span>
+      </a>
+    </mat-nav-list>
+  </mat-expansion-panel>
+</mat-accordion>

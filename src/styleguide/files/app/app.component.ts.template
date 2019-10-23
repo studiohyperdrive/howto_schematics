@@ -1,0 +1,14 @@
+import { Component } from '@angular/core';
+
+import { ContextService } from './core/services/context.service';
+
+@Component({
+  selector: 'sg-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent {
+  constructor(
+    public context: ContextService,
+  ) { }
+}

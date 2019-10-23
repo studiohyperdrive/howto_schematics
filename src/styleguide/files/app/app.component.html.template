@@ -1,0 +1,13 @@
+<sg-navigation></sg-navigation>
+
+<mat-sidenav-container>
+  <mat-sidenav mode="side" [opened]="context.sidebarOpen$ | async">
+    <sg-sidenav></sg-sidenav>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="u-main">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

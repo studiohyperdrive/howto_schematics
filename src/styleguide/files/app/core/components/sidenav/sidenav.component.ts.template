@@ -1,0 +1,28 @@
+import { Component, ViewEncapsulation, HostBinding } from '@angular/core';
+
+import { ContextService } from '../../services/context.service';
+
+export interface NavItem {
+  label: string;
+  path: string;
+  children?: NavItem[];
+}
+
+@Component({
+  selector: 'sg-sidenav',
+  templateUrl: './sidenav.component.html',
+  styleUrls: ['./sidenav.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+})
+export class SidenavComponent {
+  @HostBinding('class.styleguide-sidenav') public className = true;
+
+  public items: NavItem[] = [];
+
+  constructor(public context: ContextService) {
+  }
+
+  public onClick(): void {
+    this.context.toggleSidebar(false);
+  }
+}

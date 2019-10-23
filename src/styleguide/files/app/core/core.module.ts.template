@@ -1,0 +1,28 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { MarkdownModule } from 'ngx-markdown';
+
+import { SharedModule } from '../shared/shared.module';
+
+import { Components } from './components/index';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    RouterModule,
+    HttpClientModule,
+    MarkdownModule.forRoot({
+      loader: HttpClient,
+    }),
+    SharedModule,
+  ],
+  declarations: [
+    Components,
+  ],
+  exports: [
+    Components,
+  ],
+})
+export class CoreModule {}

@@ -1,0 +1,20 @@
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+html, body {
+	padding: 0;
+	margin: 0;
+}
+
+.u-main {
+  min-height: 85vh;
+}
+
+.flex-grid {
+  padding: .5rem;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.flex-grid__item {
+	padding: .5rem;
+};
