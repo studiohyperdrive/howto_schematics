@@ -11,7 +11,6 @@ import {
     writeChangesToTree,
     findImports,
     findVariableDeclarations,
-    findPropertyDeclarations,
 } from '../utils/ast';
 import { upper } from '../utils/strings';
 import { classify } from '@angular-devkit/core/src/utils/strings';
@@ -94,11 +93,8 @@ const updateNavigation = ({
 
         let result: Tree = tree;
         let templateSource = readIntoSourceFile(result, appComponentPath);
-        let propertyDeclarations = findPropertyDeclarations(templateSource);
-        // TODO: clean this up so we don't have to use parent
-        let typesDeclaration = findNodeByIdentifier(propertyDeclarations, 'types') as ts.Node;
-
-        let navItems = findNodes(typesDeclaration, ts.SyntaxKind.ObjectLiteralExpression);
+        let navItems = findNodes(templateSource, ts.SyntaxKind.VariableDeclarationList);
+        let items = findNodes(navItems[0], ts.SyntaxKind.ArrayLiteralExpression);
 
         if (navItems.find((item) => item.getFullText().includes(`${type}s`))) {
             return result;
@@ -109,10 +105,13 @@ const updateNavigation = ({
             appComponentPath,
             [
                 insertAfterLastOccurrence(
-                    navItems,
-                    `  { path: '${type}s', label: '${classify(type)}s' },${navItems.length ? '' : '\n'}`,
+                    items,
+                    `\n  { path: '${type}s', label: '${classify(type)}s' },\n`,
                     appComponentPath,
-                    typesDeclaration.getEnd() + 15, // TODO: fix this properly
+                    items[0].getEnd() - 2,
+                    {
+                        offset: -1
+                    }
                 ),
             ],
         );
