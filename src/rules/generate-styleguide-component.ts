@@ -44,7 +44,6 @@ export const generateStyleguideComponent = (
     const {
         name,
         type,
-        prefix,
     } = options;
 
     const styleguideConfig = workspace.projects['styleguide'];
@@ -60,13 +59,13 @@ export const generateStyleguideComponent = (
             module: `${type}s`,
             path: `${styleguideConfig.sourceRoot}/app/${type}s`,
             type: ComponentTypes.page,
-            prefix: 'sg',
+            prefix: ComponentPrefixes.styleguide,
         }, workspace),
         updateComponent({
             type,
             name,
             path: `${styleguideConfig.sourceRoot}/app/${type}s` as Path,
-            prefix,
+            prefix: ComponentPrefixes[type],
         }),
     ];
 };
