@@ -11,7 +11,7 @@ const TYPES_NAV: NavItem[] = [];
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  public types: NavItem[] = TYPES_NAV;
+  public types: NavItem[] = TYPES_NAV.sort((a, b) => a.label > b.label ? 1 : -1);
 
   constructor(
     public context: ContextService,
