@@ -1,28 +1,43 @@
-# Getting Started With Schematics
+# Howto schematics
 
-This repository is a basic Schematic implementation that serves as a starting point to create and publish Schematics to NPM.
+These are the schematics used in the [Howto app](https://github.com/studiohyperdrive/howto-app). We tried to stay as close to base Angular schematics as possible, to limit the impact of future updates.
 
-### Testing
+This is very much a work in progress and needs some polishing before being ready for production use.
 
-To test locally, install `@angular-devkit/schematics-cli` globally and use the `schematics` command line tool. That tool acts the same as the `generate` command of the Angular CLI, but also has a debug mode.
+## Specifications
+This project has been generated using:
+- `@angular-devkit/schematics-cli`: 0.803.9
+- `nodejs`: 10.16.3
+- `npm`: 6.9.0
 
-Check the documentation with
-```bash
-schematics --help
-```
+## Project setup
+### npm scripts
+This project has the following npm scripts.
 
-### Unit Testing
+| Command        | Description
+| -------------- | -----------
+| start			 | Runs the TypeScript compiler with a watch flag.
+| build			 | Runs the TypeScript compiler.
+| test       | Run the tests.
 
-`npm run test` will run the unit tests, using Jasmine as a runner and test framework.
+All commands are executable by running `npm run [COMMAND-NAME]`.
 
-### Publishing
+**To get started**, don't forget a `nvm use` to activate the node version specified in the `.nvmrc` file of this project.
 
-To publish, simply do:
+## Code Contribution ##
+### Branches ###
+We follow these naming conventions:
+* **master**: Production-ready code, tagged for a production release, latest commit for development release.
+* **release/***: Snapshot of a release.
+* **feature/***: For developing new features.
+* **bugfix/***: For bugs that are logged during testing.
+* **hotfix/***: Only for hotfixing critical bugs from the `master`-branch.
 
-```bash
-npm run build
-npm publish
-```
-
-That's it!
- 
+### Team ###
+List the team that has worked on this project, including the duration e.g.:
+* [Tom Opdebeeck - Studio Hyperdrive](tom.opdebeeck@studiohyperdrive.be)
+    * **Function**: JavaScript developer
+    * **Period**: September 2019 -> ...
+* [Denis Valcke - Studio Hyperdrive](denis.valcke@studiohyperdrive.be)
+    * **Function**: JavaScript developer
+    * **Period**: September 2019 -> ...
