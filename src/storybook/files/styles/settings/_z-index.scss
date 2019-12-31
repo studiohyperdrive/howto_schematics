@@ -1,0 +1,17 @@
+// =============================================================================
+// :: Z-index
+// =============================================================================
+/**
+ * The z-indexes are based around spaces in a vertical spectrum, where a pit is
+ * the lowest type and the atmosphere is the highest. We keep these manageable.
+ * If a custom z-index is applied it is based upon one of the items by adding
+ * (+) or subtracting (-) a number.
+ */
+
+$z-index-atmosphere: 9999;
+$z-index-sky: 1000;
+$z-index-roof: 100;
+$z-index-floor: 10;
+$z-index-ground: 1;
+$z-index-cellar: 0;
+$z-index-pit: -1;

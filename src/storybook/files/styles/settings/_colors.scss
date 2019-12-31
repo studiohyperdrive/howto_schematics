@@ -1,0 +1,82 @@
+// =============================================================================
+// :: Colors
+// =============================================================================
+/**
+ * Every color is defined as a HSL (HUE-STATURATION_LIGHTNESS) notation. Based
+ * on the HUE and the LIGHTNESS we give the color a meaningfull and unique name.
+ * These colors are not to be used outside of this file.
+ *
+ * The global colors are used within the different components and should
+ * get a more reusable logical name.
+ *
+ * IMPORTANT TO NOTE: KEEP THIS FILE MANAGEABLE, CLEAN AND CONSISTENT!
+ */
+
+// =============================================================================
+// :: Internal colors
+// =============================================================================
+// Black - white variants
+$black: hsla(0, 0%, 18%, 1);
+$black-70: hsla(0, 0%, 0%, 0.7);
+$black-50: hsla(0, 0%, 0%, 0.5);
+$white: hsla(255, 100%, 100%, 1);
+
+// Grey variants
+$grey-46: hsla(240, 5%, 46%, 1);
+$grey-56: hsla(240, 5%, 56%, 1);
+$grey-76: hsla(240, 5%, 76%, 1);
+$grey-86: hsla(240, 5%, 86%, 1);
+$grey-96: hsla(240, 5%, 96%, 1);
+
+// Indigo variants
+$indigo-37: hsla(230, 46%, 37%, 1);
+$indigo-47: hsla(230, 46%, 47%, 1);
+$indigo-67: hsla(230, 46%, 67%, 1);
+$indigo-77: hsla(230, 46%, 77%, 1);
+$indigo-87: hsla(230, 46%, 87%, 1);
+
+// Pink variants
+$pink-43: hsla(343, 66%, 43%, 1);
+$pink-53: hsla(343, 66%, 53%, 1);
+$pink-73: hsla(343, 66%, 73%, 1);
+$pink-83: hsla(343, 66%, 83%, 1);
+$pink-93: hsla(343, 66%, 93%, 1);
+
+// =============================================================================
+// :: Global Colors
+// =============================================================================
+// Primary colors
+$primary-color: $indigo-47;
+
+// Text colors
+$text-color-base: $black;
+$text-color-white: $white;
+$text-color-grey-46: $grey-46;
+$text-color-indigo-47: $indigo-47;
+$text-color-grey-56: $grey-56;
+$text-color-grey-76: $grey-76;
+
+// Background colors
+$background-color-base: $white;
+$background-color-black: $black;
+$background-color-grey-46: $grey-46;
+$background-color-grey-76: $grey-76;
+$background-color-grey-86: $grey-86;
+$background-color-grey-96: $grey-96;
+
+// Border colors
+$border-color-black: $black;
+$border-color-base: $grey-86;
+$border-color-grey-76: $grey-76;
+$border-color-grey-86: $grey-86;
+$border-color-grey-96: $grey-96;
+
+// Background colors
+$background-color-base: $white;
+$background-color-grey-96: $grey-96;
+$background-color-grey-86: $grey-86;
+$background-color-grey-56: $grey-56;
+$background-color-grey-46: $grey-46;
+
+// Box shadow colors
+$box-shadow-color-base: $black;

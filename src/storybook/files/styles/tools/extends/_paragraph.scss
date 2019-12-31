@@ -1,0 +1,66 @@
+/* stylelint-disable declaration-no-important */
+
+// =============================================================================
+// :: Paragraph
+// =============================================================================
+/**
+ * Paragraph styles defined to give any component the possibility to extend from
+ * a certain style. When an element uses the same styling as a text-like block,
+ * this does not mean it is a <p>, <small>, <strong>, ... .
+ */
+
+// =============================================================================
+// :: P
+// =============================================================================
+@mixin extend-paragraph-base() {
+	font-family: $font-family-secondary;
+	font-weight: $font-weight-normal;
+	font-size: $font-size-base;
+	line-height: $line-height-base;
+
+	color: $text-color-base;
+}
+
+@mixin extend-paragraph-bold() {
+	font-family: $font-family-secondary;
+	font-weight: $font-weight-bold;
+	font-size: $font-size-base;
+	line-height: $line-height-base;
+	letter-spacing: $letter-spacing-base;
+
+	color: $text-color-base;
+}
+
+// =============================================================================
+// :: Small
+// =============================================================================
+@mixin extend-small-base() {
+	font-family: $font-family-secondary;
+	font-weight: $font-weight-normal;
+	font-size: $font-size-1x-small;
+	line-height: $line-height-base;
+
+	color: $text-color-base;
+}
+
+@mixin extend-small-bold() {
+	font-family: $font-family-secondary;
+	font-weight: $font-weight-bold;
+	font-size: $font-size-1x-small;
+	line-height: $line-height-base;
+	letter-spacing: $letter-spacing-base;
+
+	color: $text-color-base;
+}
+
+// =============================================================================
+// :: Strong
+// =============================================================================
+@mixin extend-strong-base() {
+	font-family: $font-family-secondary;
+	font-weight: $font-weight-bold;
+	font-size: $font-size-base;
+	line-height: $line-height-base;
+
+	color: $text-color-base;
+}

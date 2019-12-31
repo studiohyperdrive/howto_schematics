@@ -1,0 +1,54 @@
+// =============================================================================
+// :: Breakpoints
+// =============================================================================
+/**
+ * The breakpoints are placed within a map for readability and to generate
+ * certain layouts. This is based on the mobile-first principle.
+ *
+ * Params:
+ * - spacing: the spacing used on the breakpoint width (grid)
+ * - viewport-spacing: the spacing between the viewport and its content
+ * (container)
+ * - width: the width of a breakpoint, this can be manipuled with @media
+ * - grid-suffixicate: generates responsive classes ONLY for the grid (careful
+ * with this, it generates a lot of classes and takes up file size)
+ */
+
+// =============================================================================
+// :: Default breakpoints
+// =============================================================================
+$breakpoints: (
+	"mobile": (
+		width: 48rem,
+		spacing: 3rem,
+		viewport-spacing: 2.5rem,
+		grid-suffixicate: false
+	),
+	"tablet": (
+		width: 72rem,
+		spacing: 3rem,
+		viewport-spacing: 3rem,
+		grid-suffixicate: true
+	),
+	"desktop": (
+		width: 96rem,
+		spacing: 4rem,
+		viewport-spacing: 3.5rem,
+		grid-suffixicate: true
+	),
+	"screen": (
+		width: 114rem,
+		spacing: 4rem,
+		viewport-spacing: 4rem,
+		grid-suffixicate: true
+	)
+);
+
+// =============================================================================
+// :: Reversed breakpoints
+// =============================================================================
+/**
+ * Usefull when developing desktop-first, using respond-to mixin or using
+ * responsive suffixes in the classes (\@)
+ */
+$breakpoints-reversed: reverse-breakpoints($breakpoints);

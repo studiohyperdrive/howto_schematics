@@ -1,0 +1,14 @@
+{
+    "extends": "../tsconfig.json",
+    "compilerOptions": {
+        "types": [
+            "node"
+        ]
+    },
+    "include": [
+        "../projects/**/stories/**/*.stories.ts"
+    ],
+    "files": [
+        "./typings.d.ts"
+    ]
+}

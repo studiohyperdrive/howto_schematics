@@ -1,0 +1,85 @@
+// =============================================================================
+// :: Respond-at
+// =============================================================================
+/**
+ * Apply styling to every element above the given minimum width.
+ *
+ * Params:
+ * - $min-width: minimum width till the media query is applied to
+ */
+@mixin respond-at($min-width) {
+	@media screen and (min-width: #{$min-width + 1px}) {
+		@content;
+	}
+}
+
+// =============================================================================
+// :: Respond-to
+// =============================================================================
+/**
+ * Apply styling to every element below the given maximum width.
+ *
+ * Params:
+ * - $max-width: maximum width till the media query is applied to
+ */
+@mixin respond-to($max-width) {
+	@media screen and (max-width: $max-width) {
+		@content;
+	}
+}
+
+// =============================================================================
+// :: Respond-between
+// =============================================================================
+/**
+ * Apply styling to every element between a minimum and maximum width.
+ *
+ * Params:
+ * - $min-width: minimum width till the media query is applied to
+ * - $max-width: maximum width till the media query is applied to
+ */
+@mixin respond-between($min-width, $max-width) {
+	@media screen and (min-width: $min-width) and (max-width: $max-width) {
+		@content;
+	}
+}
+
+// =============================================================================
+// :: Respond-at
+// =============================================================================
+/**
+ * Apply styling to every element above the given minimum width.
+ *
+ * Params:
+ * - $min-width: minimum width till the media query is applied to
+ */
+@mixin respond-at-height($min-height) {
+	@media screen and (min-height: #{$min-height + 1px}) {
+		@content;
+	}
+}
+
+// =============================================================================
+// :: For-each-breakpoint
+// =============================================================================
+/**
+ * Apply a value defined in the $breakpoints map to a property for each
+ * breakpoint
+ *
+ * $prop: the name of the property to apply the value to
+ * $key: the key within the $breakpoints map that contains the value to apply
+ * to the $prop
+ */
+@mixin for-each-breakpoint($prop, $key) {
+	@each $breakpoint, $params in $breakpoints {
+		$value: map-get($params, $key);
+
+		@if ($breakpoint == "tiny") {
+			#{$prop}: $value;
+		}
+
+		@include respond-at(get-breakpoint($breakpoint)) {
+			#{$prop}: $value;
+		}
+	}
+}

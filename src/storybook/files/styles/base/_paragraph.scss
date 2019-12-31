@@ -1,0 +1,32 @@
+// =============================================================================
+// :: Paragraph - (no classes)
+// =============================================================================
+/**
+ * Contains slicing for text-like tags like:
+ * - <p>
+ * - <small>
+ * - <strong>
+ * - ...
+ *
+ * IMPORTANT TO NOTE!!!
+ * Do not specify any padding or margin on these tags to avoid having to
+ * override them in every component. If spacing is applied, keep it consistent,
+ * to a minimum and apply decent CSS rules that define what happens to these
+ * tags if the element is the only, first or last child within its structure!
+ */
+
+// =============================================================================
+// :: P
+// =============================================================================
+p {
+    @include extend-paragraph-base();
+}
+
+// =============================================================================
+// :: Small
+// =============================================================================
+small {
+    @include extend-small-base();
+
+    color: $text-color-grey-46;
+}

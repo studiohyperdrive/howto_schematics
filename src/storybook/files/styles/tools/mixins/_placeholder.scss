@@ -1,0 +1,29 @@
+// =============================================================================
+// :: Placeholder
+// =============================================================================
+/**
+ * Mixin used to style a placeholder within different browsers. It can only be
+ * used within an input field.
+ */
+@mixin placeholder() {
+
+	&::-moz-placeholder {
+		@content;
+		text-overflow: ellipsis;
+	}
+
+	&::-webkit-input-placeholder {
+		@content;
+		text-overflow: ellipsis;
+	}
+
+	&:-moz-placeholder {
+		@content;
+		text-overflow: ellipsis;
+	}
+
+	&:-ms-input-placeholder {
+		@content;
+		text-overflow: ellipsis;
+	}
+}

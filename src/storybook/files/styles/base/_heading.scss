@@ -1,0 +1,48 @@
+// =============================================================================
+// :: Heading - (no classes)
+// =============================================================================
+/**
+ * Contains slicing for the h1 - h6 tags.
+ *
+ * IMPORTANT TO NOTE!!!
+ * Do not specify any padding or margin on these tags to avoid having to
+ * override them in every component. If spacing is applied, keep it consistent,
+ * to a minimum and apply decent CSS rules that define what happens to these
+ * tags if the element is the only, first or last child within its structure!
+ */
+
+// =============================================================================
+// :: H1
+// =============================================================================
+h1 {
+    @include extend-h1-base();
+
+    color: $text-color-base;
+}
+
+// =============================================================================
+// :: H2
+// =============================================================================
+h2 {
+    @include extend-h2-base();
+
+    color: $text-color-base;
+}
+
+// =============================================================================
+// :: H3
+// =============================================================================
+h3 {
+    @include extend-h3-base();
+
+    color: $text-color-base;
+}
+
+// =============================================================================
+// :: H4
+// =============================================================================
+h4 {
+    @include extend-h4-base();
+
+    color: $text-color-base;
+}

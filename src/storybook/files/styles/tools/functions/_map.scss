@@ -1,0 +1,87 @@
+// =============================================================================
+// :: Reverse-map
+// =============================================================================
+/**
+ * Reverses the order of a map, is especially useful when working with the
+ * breakpoints map
+ *
+ * $map: the target map that should be reversed in order
+ */
+@function reverse-map($map) {
+	$result: null;
+
+	@if type-of($map) == "map" {
+		$keys: map-keys($map);
+		$reversed: ();
+
+		@for $i from length($keys) through 1 {
+			$reversed: map-merge(
+				$reversed,
+				(
+					nth($keys, $i): map-get($map, nth($keys, $i))
+				)
+			);
+		}
+
+		@if type-of($reversed) == "map" {
+			$result: $reversed;
+		}
+	}
+
+	@return $result;
+}
+
+// =============================================================================
+// :: Trim to
+// =============================================================================
+/**
+ * Trims a map to a certain target key. Returns a new map that is trimmed down
+ * until the key is met.
+ *
+ * $map: the map that needs to be trimmed
+ * $target: the target key that needs to be met
+ */
+@function trim-to($map, $target) {
+	$result: $map;
+	$break: false;
+
+	@each $key, $value in $map {
+		@if ($target == $key) {
+			$break: true;
+		}
+
+		@if (not $break) {
+			$result: map-remove($result, $key);
+		}
+	}
+
+	@return $result;
+}
+
+// =============================================================================
+// :: Trim until
+// =============================================================================
+/**
+ * Trims a map to a certain target key. Reverses the map to start from the top
+ * and goes down to the bottom. It trims the keys until the target is met.
+ *
+ * $map: the map that needs to be trimmed
+ * $target: the target key that needs to be met
+ */
+@function trim-until($map, $target) {
+	$reversed: reverse-map($map);
+	$result: $reversed;
+	$break: false;
+
+	@each $key, $value in $reversed {
+		@if ($target == $key) {
+			$break: true;
+		}
+
+		@if (not $break) {
+			$result: map-remove($result, $key);
+		}
+	}
+
+	@return $result;
+}

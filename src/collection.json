@@ -24,6 +24,10 @@
     "styleguide": {
       "description": "Set up a new styleguide project.",
       "factory": "./styleguide/index#styleguideSchematic"
+    },
+    "storybook": {
+      "description": "Set up a new storybook project.",
+      "factory": "./storybook/index#storybookSchematic"
     }
   }
 }

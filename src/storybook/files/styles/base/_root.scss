@@ -1,0 +1,56 @@
+// =============================================================================
+// :: Root - (no classes)
+// =============================================================================
+/**
+ * Contains slicing for the highest level of layout:
+ * - <html>
+ * - <body>
+ */
+
+// =============================================================================
+// :: Html
+// =============================================================================
+/**
+ * "the most humbe and undersung, yet awesome and usefull CSS Property"
+ * - Chris Coyier - css-tricks
+ *
+ * Mark your calendars, we celebrate "International box-sizing Awareness Day" on
+ * the 1st of February!!!
+ */
+html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /**
+	 * Border-box is used to make responsive layouts more manageable. It allows
+	 * to include padding and border in an elements width and height.
+	 */
+    box-sizing: border-box;
+
+    /**
+	 * We set the font-size on the HTML tag to 62.5% to equalize 1rem to 10px
+	 * instead of 1rem to 16px.
+	 */
+    font-size: 62.5%;
+}
+
+*,
+*::before,
+*::after {
+    /**
+	 * By adding box-sizing directly onto the <html> and inheriting it on every
+	 * element we make it easier to overwrite the box-sizing property within
+	 * other components or libraries that were build on a different box-sizing
+	 * standard.
+	 */
+    box-sizing: inherit;
+}
+
+// =============================================================================
+// :: Body
+// =============================================================================
+body {
+    @include extend-paragraph-base();
+
+    color: $text-color-base;
+}

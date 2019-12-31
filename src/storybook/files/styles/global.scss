@@ -1,0 +1,78 @@
+// =============================================================================
+// :: Global
+// =============================================================================
+/**
+ * Contains all settings, and tools (extends, functions and mixins) for the
+ * ui components to use. It needs to be imported in the separate components in
+ * order for them to use the variables.
+ *
+ * These variables and tools decide the entire basic look (typo, colors,..) of
+ * the component.
+ */
+
+// =============================================================================
+// :: Tools - functions
+// =============================================================================
+/**
+ * Functions used to pass values to and return a manipulated value. These
+ * contain functionality and do not define slicing.
+ */
+
+@import
+    "tools/functions/_map",
+    "tools/functions/_units",
+    "tools/functions/_breakpoints";
+
+// =============================================================================
+// :: Tools - mixins
+// =============================================================================
+/**
+* Mixins used to make our lives in the wonderfull world of SCSS easier and
+* enjoyable.
+*/
+
+@import
+    "tools/mixins/_breakpoints",
+    "tools/mixins/_placeholder";
+
+// =============================================================================
+// :: Settings
+// =============================================================================
+/**
+* Variables and maps used to define the basis like colors, layout, typography,
+* breakpoints, container-widths, ...
+*/
+
+@import
+    "settings/_colors",
+    "settings/_typography",
+    "settings/_breakpoints",
+    "settings/_z-index",
+    "settings/_layout";
+
+// =============================================================================
+// :: Tools - extends
+// =============================================================================
+/**
+* Extendable classes/components used to create more consistency and link
+* the styling of components that are not related together.
+*/
+
+@import
+    "tools/extends/_heading",
+    "tools/extends/_paragraph";
+
+// =============================================================================
+// :: Utils
+// =============================================================================
+/**
+* Utility classes are used to apply one type of styling to the element.
+* These properties usually have an !important on them because when you apply
+* a utility, you want it to apply that style so that it is not canceled out
+* by a component. You should not try to overwrite a utility's styling.
+*/
+
+@import
+    "utils/_visibility",
+    "utils/_padding",
+    "utils/_margin";

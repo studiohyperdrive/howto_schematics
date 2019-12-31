@@ -1,0 +1,158 @@
+// =============================================================================
+// :: Get-breakpoint
+// =============================================================================
+/**
+ * Retrieve the breakpoint width associated with the defined name for it. These
+ * values can be found in the $breakpoints map defined within the settings
+ * folder.
+ *
+ * Params:
+ * - $name: the name of the breakpoint where to retrieve the data from
+ */
+@function get-breakpoint($name) {
+	$breakpoint: map-get($breakpoints, $name);
+	$width: map-get($breakpoint, width);
+
+	@return px($width);
+}
+
+// =============================================================================
+// :: Get-spacing
+// =============================================================================
+/**
+ * Retrieve the breakpoint spacing associated with the defined name for it.
+ * These values can be found in the $breakpoints map defined within the settings
+ * folder.
+ *
+ * Params:
+ * - $name: the name of the breakpoint where to retrieve the data from
+ */
+@function get-spacing($name) {
+	$breakpoint: map-get($breakpoints, $name);
+	$spacing: map-get($breakpoint, spacing);
+
+	@return $spacing;
+}
+
+// =============================================================================
+// :: Get-viewport-spacing
+// =============================================================================
+/**
+ * Retrieve the breakpoint spacing associated with the defined name for it.
+ * These values can be found in the $breakpoints map defined within the settings
+ * folder.
+ *
+ * Params:
+ * - $name: the name of the breakpoint where to retrieve the data from
+ */
+@function get-viewport-spacing($name) {
+	$breakpoint: map-get($breakpoints, $name);
+	$viewport-spacing: map-get($breakpoint, viewport-spacing);
+
+	@return $viewport-spacing;
+}
+
+// =============================================================================
+// :: Get-header-height
+// =============================================================================
+/**
+ * Retrieve the breakpoint header-height associated with the defined name for
+ * it. These values can be found in the $breakpoints map defined within the
+ * settings folder.
+ *
+ * Params:
+ * - $name: the name of the breakpoint where to retrieve the data from
+ */
+@function get-header-height($name) {
+	$breakpoint: map-get($breakpoints, $name);
+	$header-height: map-get($breakpoint, header-height);
+
+	@return $header-height;
+}
+
+// =============================================================================
+// :: Set-breakpoint
+// =============================================================================
+/**
+ * Set a breakpoint with the corresponding viewport-spacing based on the
+ * $breakpoints map. This applies the viewport-spacing to any width.
+ *
+ * $target: the target width that is used to calculate which breakpoint is
+ * closest to it.
+ */
+@function set-breakpoint($target) {
+	$result: $target;
+	$reversed-breakpoints: reverse-map($breakpoints);
+
+	@each $breakpoint, $params in $reversed-breakpoints {
+		$width: map-get($params, width);
+		$viewport-spacing: map-get($params, viewport-spacing);
+
+		@if $target > $width and $result == $target {
+			$result: $target + ($viewport-spacing * 2);
+		}
+	}
+
+	@return px($result);
+}
+
+// =============================================================================
+// :: Set-viewport-spacing
+// =============================================================================
+/**
+ * Set and retrieve the viewport-spacing based on a custom width
+ *
+ * $target: the target width that is used to calculate which viewport-spacing is
+ * applied to it.
+ */
+@function set-viewport-spacing($target) {
+	$viewport-spacing: 0;
+	$reversed-breakpoints: reverse-map($breakpoints);
+
+	@each $breakpoint, $params in $reversed-breakpoints {
+		$width: map-get($params, width);
+
+		@if $target > $width and $viewport-spacing == 0 {
+			$viewport-spacing: map-get($params, viewport-spacing);
+		}
+	}
+
+	@return $viewport-spacing;
+}
+
+// =============================================================================
+// :: Reverse-breakpoints
+// =============================================================================
+/**
+ * Change the structure of the $breakpoints variable to be desktop-first instead
+ * of mobile-first so that respond-to can be easily looped and created
+ *
+ * $map: the breakpoints variabele to reverse
+ */
+@function reverse-breakpoints($map) {
+	$break: false;
+	$keys: map-keys($map);
+	$first-key: nth($keys, 1);
+	$prevParams: map-get($map, $first-key);
+	$result: $map;
+
+	@each $key, $value in $map {
+		$currParams: $value;
+		$viewport-spacing: map-get($prevParams, viewport-spacing);
+		$spacing: map-get($prevParams, spacing);
+
+		@if ($key != $first-key) {
+			$currParams: map-merge($currParams, ("viewport-spacing": $viewport-spacing));
+			$currParams: map-merge($currParams, ("spacing": $spacing));
+			$result: map-merge($result, ($key: $currParams));
+		}
+
+		@else {
+			$result: map-remove($result, $key);
+		}
+
+		$prevParams: $value;
+	}
+
+	@return $result;
+}
